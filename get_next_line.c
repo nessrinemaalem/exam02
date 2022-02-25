@@ -6,35 +6,52 @@
 /*   By: imaalem <imaalem@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 15:05:11 by imaalem           #+#    #+#             */
-/*   Updated: 2022/02/24 19:39:38 by imaalem          ###   ########.fr       */
+/*   Updated: 2022/02/25 11:12:34 by imaalem          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// heure de depart : 15:02 fail -> seg auly pour des erreurs betes prnde le temps de bien faire et de relire au fur et a mesure
-
-// depart 3: 16:13
-
-#include <unistd.h>
-#include <stdlib.h>
+#include <stddef.h>
 #include <stdio.h>
-#include <sys/types.h>
-#include <sys/stat.h>
 #include <fcntl.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+//meilleur temps 48min (avec quelques bavardages)
 
 int	ft_strlen(char *str)
 {
 	int i = 0;
+
 	while (str[i])
 		i++;
 	return (i);
 }
 
-char	*ft_strchr(char *str, int c)
+char *ft_substr(char *str, int start, int len)
 {
-	char *dup = (unsigned char *)str;
+	char 	*dest;
+	int		i = 0;
 
 	if (!str)
-		return NULL;
+		return (NULL);
+	dest = (unsigned char *)malloc(sizeof(char) * (len + 1));
+	while (i < len)
+	{
+		dest[i] = str[start++];
+		i++;
+	}
+	dest[i] = '\0';
+	return (dest);
+}
+
+char *ft_strchr(char *str, int c)
+{
+	char	*dup = (unsigned char *)str;
+
+	if (!str)
+		return (NULL);
 	while (*dup)
 	{
 		if (*dup == (unsigned char)c)
@@ -44,21 +61,42 @@ char	*ft_strchr(char *str, int c)
 	return (NULL);
 }
 
-char *ft_strjoin(char *s1, char *s2)
+char	*ft_tail(char *tail, int *n)
 {
-	char	*dest;
+	char *new_tail;
+
+	new_tail = ft_substr(tail, *n + 1, ft_strlen(tail));
+	free(tail);
+	return (new_tail);
+}
+
+char	*ft_line(char *tail, int *n)
+{
+	int		i = 0;
+	char 	*line;
+
+	while (tail[i] && tail[i] != '\n')
+		i++;
+	*n = i;
+	line = ft_substr(tail, 0, *n + 1);
+	return (line);
+}
+
+char	*ft_strjoin(char *s1, char *s2)
+{
+	char 	*dest;
 	int		i = 0, j = 0;
 
-	if (!s1 || !s2)
-		return NULL;
-	dest = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (!s1 || !s2 )
+		return (NULL);
+	dest = (unsigned char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (!dest)
-		return NULL;
+		return (NULL);
 	while (s1[i])
 	{
 		dest[i] = s1[i];
 		i++;
-	} 
+	}
 	while (s2[j])
 	{
 		dest[i + j] = s2[j];
@@ -69,23 +107,9 @@ char *ft_strjoin(char *s1, char *s2)
 	return (dest);
 }
 
-char	*ft_substr(char *str, int start, int len)
-{
-	char	*dest;
-	int		i = 0;
-
-	dest = (char *)malloc(sizeof(char) * (ft_strlen(str) + 1));
-	if (!dest)
-		return NULL;
-	while (i < len)
-		dest[i++] = str[start++];
-	dest[i] = '\0';
-	return (dest);
-}
-
 char	*ft_read(char *tail, int fd)
 {
-	char 	buf[BUFFER_SIZE + 1];
+	char	buf[BUFFER_SIZE + 1];
 	int		count_read = 1;
 
 	while (count_read > 0 && !ft_strchr(tail, '\n'))
@@ -102,34 +126,13 @@ char	*ft_read(char *tail, int fd)
 	return (tail);
 }
 
-char	*ft_tail(char *tail, int *n)
-{
-	char *new_tail;
-
-	new_tail = ft_substr(tail, *n + 1, ft_strlen(tail));
-	free(tail);
-	return (new_tail);
-}
-
-char	*ft_line(char *tail, int *n)
-{
-	char	*line;
-	int		i;
-
-	while (tail[i] != '\n' && tail[i])
-		i++;
-	line = ft_substr(tail, 0, i + 1);
-	*n = i;
-	return (line);
-}
-
 char	*get_next_line(int fd)
 {
 	static char *tail;
-	char		*line;
+	char 		*line;
 	int 		n = 0;
 
-	if (BUFFER_SIZE < 1 || fd < 0 || read(fd, 0, 0) < 0)
+	if (fd < 0 || BUFFER_SIZE < 1 || read(fd, 0, 0) < 0)
 		return (NULL);
 	tail = ft_read(tail, fd);
 	if (!tail[0])
@@ -140,13 +143,13 @@ char	*get_next_line(int fd)
 	}
 	line = ft_line(tail, &n);
 	tail = ft_tail(tail, &n);
-	return (line);
+	return(line);	
 }
 
 int	main()
 {
-	int		fd;
 	char	*str;
+	int		fd;
 
 	fd = open("file.c", O_RDONLY);
 	str = get_next_line(fd);
