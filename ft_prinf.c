@@ -6,7 +6,7 @@
 /*   By: imaalem <imaalem@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 14:43:41 by imaalem           #+#    #+#             */
-/*   Updated: 2022/02/25 15:34:04 by imaalem          ###   ########.fr       */
+/*   Updated: 2022/02/28 11:06:28 by imaalem          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	ft_putchar_len(char c, int *len)
 
 void	ft_nbr(int n, int *len)
 {
-	//printf("nbr is %d\n", n);
 	if (n == -2147483648)
 	{
 		write(1, "-2147483648", 11);
@@ -115,11 +114,11 @@ int	ft_printf(char* str, ...)
 	return (len);
 }
 
-int	main()
-{
-	char *str = "salut";
-	int	n = 897946; 
-	ft_printf("str is %%\n");
-	printf("strr is %%\n");
-	return (0);
-}
+// int	main()
+// {
+// 	char *str = "salut";
+// 	int	n = 897946; 
+// 	ft_printf("str is %%\n");
+// 	printf("strr is %%\n");
+// 	return (0);
+// }
