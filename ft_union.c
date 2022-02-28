@@ -6,11 +6,9 @@
 /*   By: imaalem <imaalem@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 13:36:18 by imaalem           #+#    #+#             */
-/*   Updated: 2022/02/22 14:07:07 by imaalem          ###   ########.fr       */
+/*   Updated: 2022/02/28 11:02:04 by imaalem          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-// depart 14:01
 
 #include <unistd.h>
 
@@ -18,8 +16,9 @@ int	main(int ac, char **av)
 {
 	if (ac == 3)
 	{
-		int	i, j, tab[255];
-		i = 0;
+		int		i = 0, j = 0;
+		char	*tab[255];
+
 		while (i < 255)
 		{
 			tab[i++] = 0;
@@ -43,6 +42,3 @@ int	main(int ac, char **av)
 	write(1, "\n", 1);
 	return (0);
 }
-
-// 14:06 total = 5min
-// record à battre

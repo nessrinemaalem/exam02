@@ -6,7 +6,7 @@
 /*   By: imaalem <imaalem@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 15:05:11 by imaalem           #+#    #+#             */
-/*   Updated: 2022/02/25 11:12:34 by imaalem          ###   ########.fr       */
+/*   Updated: 2022/02/28 11:04:16 by imaalem          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@
 #include <sys/types.h>
 #include <stdlib.h>
 #include <unistd.h>
-
-//meilleur temps 48min (avec quelques bavardages)
 
 int	ft_strlen(char *str)
 {
@@ -65,7 +63,7 @@ char	*ft_tail(char *tail, int *n)
 {
 	char *new_tail;
 
-	new_tail = ft_substr(tail, *n + 1, ft_strlen(tail));
+	new_tail = ft_substr(tail, *n + 1, ft_strlen(tail) - *n);
 	free(tail);
 	return (new_tail);
 }
@@ -146,17 +144,17 @@ char	*get_next_line(int fd)
 	return(line);	
 }
 
-int	main()
-{
-	char	*str;
-	int		fd;
+// int	main()
+// {
+// 	char	*str;
+// 	int		fd;
 
-	fd = open("file.c", O_RDONLY);
-	str = get_next_line(fd);
-	while (str != NULL)
-	{
-		printf("%s", str);
-		str = get_next_line(fd);
-	}
-	return (0);
-}
+// 	fd = open("test_file_gnl.c", O_RDONLY);
+// 	str = get_next_line(fd);
+// 	while (str != NULL)
+// 	{
+// 		printf("%s", str);
+// 		str = get_next_line(fd);
+// 	}
+// 	return (0);
+// }

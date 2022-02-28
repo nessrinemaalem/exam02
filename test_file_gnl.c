@@ -6,8 +6,7 @@ Et l'on entend à peine leurs paroles.
 
 Dans le vieux parc solitaire et glacé
 Deux spectres ont évoqué le passé.
-
-- Te souvient-il de notre extase ancienne?
+  Te souvient-il de notre extase ancienne?
 - Pourquoi voulez-vous donc qu'il m'en souvienne?
 
 - Ton coeur bat-il toujours à mon seul nom?
