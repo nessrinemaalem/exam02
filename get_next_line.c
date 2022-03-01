@@ -6,7 +6,7 @@
 /*   By: imaalem <imaalem@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 15:05:11 by imaalem           #+#    #+#             */
-/*   Updated: 2022/02/28 11:04:16 by imaalem          ###   ########.fr       */
+/*   Updated: 2022/03/01 15:27:29 by imaalem          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@ char	*ft_tail(char *tail, int *n)
 {
 	char *new_tail;
 
-	new_tail = ft_substr(tail, *n + 1, ft_strlen(tail) - *n);
-	free(tail);
+	new_tail = ft_substr(tail, *n + 1, ft_strlen(tail) - *n); // attention a faire "- *n" au risque de remplir la static des billshit data
+	free(tail); // la valeur de retour de malloc est une nouvele fois alloue
 	return (new_tail);
 }
 
@@ -87,7 +87,7 @@ char	*ft_strjoin(char *s1, char *s2)
 
 	if (!s1 || !s2 )
 		return (NULL);
-	dest = (unsigned char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	dest = (unsigned char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1)); // le casting est necessaire car malloc renvoie un void *
 	if (!dest)
 		return (NULL);
 	while (s1[i])
@@ -101,13 +101,13 @@ char	*ft_strjoin(char *s1, char *s2)
 		j++;
 	}
 	dest[i + j] = '\0';
-	free(s1);
+	free(s1); // on free tail pour le faire pointe sur sa nouvelle valeur *dest;
 	return (dest);
 }
 
 char	*ft_read(char *tail, int fd)
 {
-	char	buf[BUFFER_SIZE + 1];
+	char	buf[BUFFER_SIZE + 1]; // en examen il est possible de tj mettre une taille de 1 au buffer au cas ou la moulinette rejette le code. Cette astuce a ete utilse avec succes par beaucoup d'etudiant
 	int		count_read = 1;
 
 	while (count_read > 0 && !ft_strchr(tail, '\n'))
