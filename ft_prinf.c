@@ -6,7 +6,7 @@
 /*   By: imaalem <imaalem@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 14:43:41 by imaalem           #+#    #+#             */
-/*   Updated: 2022/02/28 11:06:28 by imaalem          ###   ########.fr       */
+/*   Updated: 2022/03/01 15:14:39 by imaalem          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	ft_nbr(int n, int *len)
 	}
 	else
 	{
-		if (n > 9)
+		if (n > 9) // faite bien attention a cet ordre
 			ft_nbr(n / 10, len);
 		ft_putchar_len(n % 10 + '0', len);
 	}
@@ -82,7 +82,7 @@ void	check_flag(va_list *list, int flag, int *len)
 	if (flag == '%')
 		ft_putchar_len('%', len);
 	else if (flag == 'x')
-		ft_hex(va_arg(*list, unsigned int), len);
+		ft_hex(va_arg(*list, unsigned int), len); // faite bien attention a caster en UNSIGNED int
 	else if (flag == 's')
 		ft_str(va_arg(*list, char *), len);
 	else if (flag == 'd')
