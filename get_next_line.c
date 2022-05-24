@@ -6,15 +6,12 @@
 /*   By: imaalem <imaalem@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 15:05:11 by imaalem           #+#    #+#             */
-/*   Updated: 2022/03/06 13:01:57 by imaalem          ###   ########.fr       */
+/*   Updated: 2022/05/24 16:37:44 by imaalem          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
-#include <stdio.h>
 #include <fcntl.h>
-#include <sys/stat.h>
-#include <sys/types.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 
@@ -27,6 +24,23 @@ int	ft_strlen(char *str)
 	return (i);
 }
 
+char *ft_strdup(char *str)
+{
+	char	*dup;
+	int		i = 0;
+
+	dup = malloc(sizeof(char) * (ft_strlen(str) + 1));
+	if (!dup)
+		return (NULL);
+	while (str[i])
+	{
+		dup[i] = str[i];
+		i++;
+	}
+	dup[i] = '\0';
+	return (dup);
+}
+
 char *ft_substr(char *str, int start, int len)
 {
 	char 	*dest;
@@ -35,7 +49,9 @@ char *ft_substr(char *str, int start, int len)
 	if (!str)
 		return (NULL);
 	dest = (unsigned char *)malloc(sizeof(char) * (len + 1));
-	while (i < len)
+	if (!dest)
+		return (NULL);
+	while (i < len && str[start])
 	{
 		dest[i] = str[start++];
 		i++;
@@ -85,8 +101,15 @@ char	*ft_strjoin(char *s1, char *s2)
 	char 	*dest;
 	int		i = 0, j = 0;
 
-	if (!s1 || !s2 )
+	if (!s1 && !s2 )
 		return (NULL);
+	if (!s1)
+		return (ft_strdup(s2));
+	if (!s2)
+	{
+		free(s1);
+		return (ft_strdup(s1));
+	}
 	dest = (unsigned char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1)); // le casting est necessaire car malloc renvoie un void *
 	if (!dest)
 		return (NULL);
@@ -113,8 +136,6 @@ char	*ft_read(char *tail, int fd)
 	while (count_read > 0 && !ft_strchr(tail, '\n'))
 	{
 		count_read = read(fd, buf, BUFFER_SIZE);
-		if (count_read < 0)
-			return (NULL);
 		buf[count_read] = '\0';
 		if (!tail)
 			tail = ft_substr(buf, 0, count_read);
@@ -144,17 +165,17 @@ char	*get_next_line(int fd)
 	return(line);	
 }
 
-// int	main()
-// {
-// 	char	*str;
-// 	int		fd;
+int	main()
+{
+	char	*str;
+	int		fd;
 
-// 	fd = open("test_file_gnl.c", O_RDONLY);
-// 	str = get_next_line(fd);
-// 	while (str != NULL)
-// 	{
-// 		printf("%s", str);
-// 		str = get_next_line(fd);
-// 	}
-// 	return (0);
-// }
+	fd = open("test_file_gnl.c", O_RDONLY);
+	str = get_next_line(fd);
+	while (str != NULL)
+	{
+		printf("%s", str);
+		str = get_next_line(fd);
+	}
+	return (0);
+}
